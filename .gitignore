@@ -82,3 +82,4 @@ publish
 php/header.php
 vendor
 composer*
+configs/*
