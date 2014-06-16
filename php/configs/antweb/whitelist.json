@@ -1,0 +1,26 @@
+[
+    {
+        "table": "darwin_core_2",
+        "fields": [
+            "occurenceID",
+            "catalogNumber",
+            "subfamily",
+            "genus",
+            "specificEpithet",
+            "scientific_name",
+            "typeStatus",
+            "decimalLatitude",
+            "decimalLongitude",
+            "dateIdentified",
+            "habitat"
+        ]
+    },
+    {
+        "table": "image",
+        "fields": [
+            "uid",
+            "shot_type",
+            "image_path"
+        ]
+    }
+]
