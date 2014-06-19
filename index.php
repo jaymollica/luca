@@ -1,6 +1,14 @@
 <?php
 
+//header start
+
+session_start();
 require_once  $_SERVER['DOCUMENT_ROOT'] . '/php/class/apize.php';
+require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+$loader = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT'] . '/tpls');
+$twig = new Twig_Environment($loader);
+
+//end header
 
 $dirs = glob('php/configs/*', GLOB_ONLYDIR);
 
@@ -21,18 +29,29 @@ if(file_exists($path_to_whitelist)) {
   $whitelist = json_decode(file_get_contents($path_to_whitelist));
 }
 else{
-  print '<p>There is no whitelist for this collection.</p>';
+  print '<p>There is no whitelist for this collection!</p>';
 }
 
 $apize = new apize($pdo,$whitelist);
 
 $tables = $apize->tables();
 
-print '<pre>'; print_r($tables); print '</pre>';
-
 foreach($tables AS $t) {
-  $columns = $apize->getColumnNames($t);
-  print '<pre>'; print_r($columns); print '</pre>';
+  $columns[] = $apize->getColumnNames($t);
+}
+
+$columns = call_user_func_array('array_merge', $columns);
+
+if(!empty($columns)) {
+  $arguments = $apize->getArguments($columns);
+
+  print '<pre>'; print_r($arguments); print '</pre>';
+
+  echo $twig->render('base_header.html',array());
+  foreach($arguments AS $args) {
+    echo $twig->render('documentation.html', array('arguments' => $args));
+  }
+  echo $twig->render('base_footer.html',array());
 }
 
 ?>

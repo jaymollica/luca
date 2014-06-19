@@ -1,0 +1,17 @@
+<div id="schemes">
+  <div>Hello Documentation</div>
+  <table>
+    <thead>
+      <th>Argument</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+  {% for item in arguments %}
+    <tr>
+      <td>{{item.Field}}</td>
+      <td><p>{{item.description}}</p><p>{{item.Comment}}</p></td>
+    </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+</div>

@@ -34,7 +34,7 @@
 
     public function getColumnNames($table) {
 
-      $sql = $this->_db->prepare("DESCRIBE " . $table);
+      $sql = $this->_db->prepare("SHOW FULL COLUMNS FROM " . $table);
       $sql->execute();
       if($sql->rowCount() > 0) {
         $columns[$table] = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -55,6 +55,37 @@
       }
 
       return $white_columns;
+
+    }
+
+    public function getArguments($fieldArray) {
+
+      //print '<pre>'; print_r($fieldArray); print '</pre>';
+
+      foreach($fieldArray AS &$fa) {
+
+        foreach($fa AS &$field) {
+
+          $field['description'] = $this->addDescription($field);
+
+        }
+
+      }
+
+    return $fieldArray;
+
+    }
+
+    public function addDescription($field) {
+
+      include $_SERVER['DOCUMENT_ROOT'] . '/php/includes/field_descriptions.php';
+
+      $parts = explode("(", $field['Type']);
+      $type = $parts[0];
+
+      if(array_key_exists($type, $fieldDescriptions)) {
+        return $fieldDescriptions[$type];
+      }
 
     }
 
