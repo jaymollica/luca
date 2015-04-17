@@ -72,7 +72,7 @@
 
       }
 
-    return $fieldArray;
+      return $fieldArray;
 
     }
 
